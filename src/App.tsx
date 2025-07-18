@@ -36,14 +36,14 @@ const i18n = {
     why: 'Why Use It?',
     whyDesc: 'LLM / web text may contain hidden characters that cause issues. Here is how we help.',
     cards: [
-      { icon:'💧', title:'Removes "Watermarks"', body:'Some LLMs add invisible patterns. We strip them for a clean version.' },
-      { icon:'🐛', title:'Fixes Layout Bugs', body:'Zero-width & odd spacing chars removed to prevent formatting glitches.' },
-      { icon:'🔗', title:'Ensures Compatibility', body:'Legacy systems, DBs, parsers often expect pure ASCII.' },
-      { icon:'🧹', title:'Preps the Data', body:'Ready for logging, diffing, analysis, ingestion.' }
+      { icon: '💧', title: 'Removes "Watermarks"', body: 'Some LLMs add invisible patterns. We strip them for a clean version.' },
+      { icon: '🐛', title: 'Fixes Layout Bugs', body: 'Zero-width & odd spacing chars removed to prevent formatting glitches.' },
+      { icon: '🔗', title: 'Ensures Compatibility', body: 'Legacy systems, DBs, parsers often expect pure ASCII.' },
+      { icon: '🧹', title: 'Preps the Data', body: 'Ready for logging, diffing, analysis, ingestion.' }
     ],
     how: 'How It Works (Interactive)',
     howDesc: 'See each transformation step. Click the steps to preview the change.',
-    steps: ['Original','1. Normalize','2. Replace','3. Strip Accents','4. Remove non-ASCII','5. Normalize Spaces','6. Clean'],
+    steps: ['Original', '1. Normalize', '2. Replace', '3. Strip Accents', '4. Remove non-ASCII', '5. Normalize Spaces', '6. Clean'],
     demoStepDesc: [
       'Original sample with accents, special punctuation and non‑Latin.',
       'NFD normalization splits base letters and diacritics (é → e + accent).',
@@ -60,9 +60,8 @@ const i18n = {
       'Reusable server-side for pipeline sanitation.'
     ],
     license: 'Released under MIT. No tracking. Just clean text.',
-    mode: (dark:boolean)=> `Mode: ${dark? 'Dark (full)': 'Light'}`,
+    mode: (dark: boolean) => `Mode: ${dark ? 'Dark (full)' : 'Light'}`,
     langToggle: 'IT',
-    metaNotice: 'Language chosen from browser settings. Switch if wrong:'
   },
   it: {
     title: 'LLM Clean Text',
@@ -77,14 +76,14 @@ const i18n = {
     why: 'Perché Usarlo?',
     whyDesc: 'Il testo da LLM / web può contenere caratteri nascosti problematici. Ecco come aiutiamo.',
     cards: [
-      { icon:'💧', title:'Rimuove "Watermark"', body:'Alcuni LLM inseriscono pattern invisibili. Li eliminiamo.' },
-      { icon:'🐛', title:'Risolve Errori di Layout', body:'Caratteri a larghezza zero rimossi: niente glitch.' },
-      { icon:'🔗', title:'Garantisce Compatibilità', body:'Sistemi legacy, DB e parser spesso vogliono solo ASCII.' },
-      { icon:'🧹', title:'Prepara i Dati', body:'Pronto per logging, diff, analisi, ingestion.' }
+      { icon: '💧', title: 'Rimuove "Watermark"', body: 'Alcuni LLM inseriscono pattern invisibili. Li eliminiamo.' },
+      { icon: '🐛', title: 'Risolve Errori di Layout', body: 'Caratteri a larghezza zero rimossi: niente glitch.' },
+      { icon: '🔗', title: 'Garantisce Compatibilità', body: 'Sistemi legacy, DB e parser spesso vogliono solo ASCII.' },
+      { icon: '🧹', title: 'Prepara i Dati', body: 'Pronto per logging, diff, analisi, ingestion.' }
     ],
     how: 'Come Funziona (Interattivo)',
     howDesc: 'Osserva ogni passaggio di trasformazione. Clicca per vedere l\'effetto.',
-    steps: ['Originale','1. Normalizza','2. Sostituisci','3. Rimuovi Accenti','4. Rimuovi non-ASCII','5. Normalizza Spazi','6. Pulisci'],
+    steps: ['Originale', '1. Normalizza', '2. Sostituisci', '3. Rimuovi Accenti', '4. Rimuovi non-ASCII', '5. Normalizza Spazi', '6. Pulisci'],
     demoStepDesc: [
       'Testo originale con accenti, punteggiatura speciale e caratteri non latini.',
       'Normalizzazione NFD: separa lettere e diacritici (é → e + accent).',
@@ -101,9 +100,8 @@ const i18n = {
       'Riusabile server-side per sanitize pipeline.'
     ],
     license: 'Rilasciato sotto licenza MIT. Nessun tracking. Solo testo pulito.',
-    mode: (dark:boolean)=> `Modalità: ${dark? 'Dark (full)': 'Light'}`,
-    langToggle: 'EN',
-    metaNotice: 'Lingua scelta dai metadata del browser. Cambia se errata:'
+    mode: (dark: boolean) => `Modalità: ${dark ? 'Dark (full)' : 'Light'}`,
+    langToggle: 'EN'
   }
 };
 
@@ -113,13 +111,13 @@ const sampleDemo = `Français naïve – “Ciao mondo!” — 25°...\nAltri si
 
 const buildStepFn = (lang: Lang) => {
   return i18n[lang].demoStepDesc.map((desc, idx) => (s: string) => {
-    switch(idx){
+    switch (idx) {
       case 0: return { text: s, desc };
       case 1: return { text: s.normalize('NFD'), desc };
-      case 2: return { text: s.normalize('NFD').replace(/[“”„«»‘’‚′″–—‐‑‒…•·×÷°€£¥¢©®™]/g, ch=>basicReplacements[ch]||''), desc };
-      case 3: return { text: s.normalize('NFD').replace(/[“”„«»‘’‚′″–—‐‑‒…•·×÷°€£¥¢©®™]/g, ch=>basicReplacements[ch]||'').replace(combiningMarks,''), desc };
-      case 4: return { text: transliterateToASCII(s).replace(/[ \t]+/g,' ').replace(/\r\n?/g,'\n').split('\n').map(l=>l.trimEnd()).join('\n').trim(), desc };
-      case 5: return { text: transliterateToASCII(s).replace(/\r\n?/g,'\n').split('\n').map(l=>l.trimEnd()).join('\n').trim(), desc };
+      case 2: return { text: s.normalize('NFD').replace(/[“”„«»‘’‚′″–—‐‑‒…•·×÷°€£¥¢©®™]/g, ch => basicReplacements[ch] || ''), desc };
+      case 3: return { text: s.normalize('NFD').replace(/[“”„«»‘’‚′″–—‐‑‒…•·×÷°€£¥¢©®™]/g, ch => basicReplacements[ch] || '').replace(combiningMarks, ''), desc };
+      case 4: return { text: transliterateToASCII(s).replace(/[ \t]+/g, ' ').replace(/\r\n?/g, '\n').split('\n').map(l => l.trimEnd()).join('\n').trim(), desc };
+      case 5: return { text: transliterateToASCII(s).replace(/\r\n?/g, '\n').split('\n').map(l => l.trimEnd()).join('\n').trim(), desc };
       case 6: return { text: transliterateToASCII(s), desc };
       default: return { text: s, desc };
     }
@@ -174,23 +172,23 @@ const App: React.FC = () => {
     convert(val);
   };
 
-  const handleCopy = async () => { if (!output) return; try { await navigator.clipboard.writeText(output); } catch {} };
+  const handleCopy = async () => { if (!output) return; try { await navigator.clipboard.writeText(output); } catch { } };
   const handleDownload = () => {
     if (!output) return;
     const blob = new Blob([output], { type: 'text/plain;charset=utf-8' });
     const url = URL.createObjectURL(blob); const a = document.createElement('a');
     a.href = url; a.download = 'llm-clean-text-output.txt'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
   };
-  const handleClear = () => { setInput(''); setOutput(''); setStats({ inChars:0,outChars:0,removed:0 }); };
-  const selectStep = (idx:number) => { setDemoStep(idx); setDemoResult(stepFns[idx](sampleDemo)); };
+  const handleClear = () => { setInput(''); setOutput(''); setStats({ inChars: 0, outChars: 0, removed: 0 }); };
+  const selectStep = (idx: number) => { setDemoStep(idx); setDemoResult(stepFns[idx](sampleDemo)); };
 
-  useEffect(()=>{ convert(input); }, []); // init
-  useEffect(()=>{ if (typeof window!== 'undefined') window.localStorage.setItem('uct_theme', dark? 'dark':'light'); },[dark]);
-  useEffect(()=>{ if (typeof window!== 'undefined') window.localStorage.setItem('uct_lang', lang); },[lang]);
+  useEffect(() => { convert(input); }, []); // init
+  useEffect(() => { if (typeof window !== 'undefined') window.localStorage.setItem('uct_theme', dark ? 'dark' : 'light'); }, [dark]);
+  useEffect(() => { if (typeof window !== 'undefined') window.localStorage.setItem('uct_lang', lang); }, [lang]);
 
   // When language manually changed, rebuild steps
-  useEffect(()=>{ const fns = buildStepFn(lang); setStepFns(fns); setDemoResult(fns[demoStep](sampleDemo)); /* eslint-disable-next-line */ },[lang]);
-  useEffect(()=>{ setDemoResult(stepFns[demoStep](sampleDemo)); /* eslint-disable-next-line */ },[demoStep]);
+  useEffect(() => { const fns = buildStepFn(lang); setStepFns(fns); setDemoResult(fns[demoStep](sampleDemo)); /* eslint-disable-next-line */ }, [lang]);
+  useEffect(() => { setDemoResult(stepFns[demoStep](sampleDemo)); /* eslint-disable-next-line */ }, [demoStep]);
 
   const outerBg = dark ? 'bg-slate-950 text-slate-100' : 'bg-slate-50 text-slate-800';
   const containerRing = dark ? 'ring-1 ring-slate-700/40' : 'ring-1 ring-transparent';
@@ -218,12 +216,11 @@ const App: React.FC = () => {
               aria-label="Toggle dark mode"
             >{dark ? '🌞' : '🌙'} {dark ? 'Light' : 'Dark'}</button>
             <button
-              onClick={() => { const next = lang === 'it'? 'en':'it'; setLang(next); }}
+              onClick={() => { const next = lang === 'it' ? 'en' : 'it'; setLang(next); }}
               className={`px-4 py-2 rounded-full text-sm font-semibold border transition-colors shadow ${dark ? 'bg-slate-700 border-slate-600 hover:bg-slate-600 text-slate-50' : 'bg-white border-slate-300 hover:bg-slate-100 text-slate-700'}`}
               aria-label="Toggle language"
             >{i18n[lang].langToggle}</button>
           </div>
-          <div className={`mt-10 text-xs ${subheading}`}>{D.metaNotice} <span className="font-semibold">{lang.toUpperCase()}</span></div>
         </header>
 
         {/* Converter Section */}
@@ -236,7 +233,7 @@ const App: React.FC = () => {
                 className={`flex-1 w-full rounded-xl p-4 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[260px] border ${textIn}`}
                 value={input}
                 onChange={handleChange}
-                placeholder={lang==='it'? 'Incolla il tuo testo qui...':'Paste your text here...'}
+                placeholder={lang === 'it' ? 'Incolla il tuo testo qui...' : 'Paste your text here...'}
               />
               <div className={`mt-2 text-xs ${subtle}`}>{D.chars}: {stats.inChars}</div>
             </div>
@@ -282,9 +279,9 @@ const App: React.FC = () => {
           <p className={`text-center mt-2 max-w-3xl mx-auto ${subheading}`}>{D.howDesc}</p>
           <div className={`${panel} p-6 mt-8 rounded-2xl border transition-colors`}>
             <div className="flex flex-wrap justify-center gap-2 mb-4">
-              {D.steps.map((lbl,i)=>{
-                const active = demoStep===i; return (
-                  <button key={i} onClick={()=>selectStep(i)} className={`text-sm px-3 py-1.5 border rounded-full transition-all ${active? 'bg-blue-600 text-white border-blue-600':'border-slate-400 hover:border-blue-400 hover:text-blue-500'} ${dark && !active? 'bg-slate-700/40 text-slate-300':''}`}>{lbl}</button>
+              {D.steps.map((lbl, i) => {
+                const active = demoStep === i; return (
+                  <button key={i} onClick={() => selectStep(i)} className={`text-sm px-3 py-1.5 border rounded-full transition-all ${active ? 'bg-blue-600 text-white border-blue-600' : 'border-slate-400 hover:border-blue-400 hover:text-blue-500'} ${dark && !active ? 'bg-slate-700/40 text-slate-300' : ''}`}>{lbl}</button>
                 );
               })}
             </div>
@@ -311,7 +308,7 @@ const App: React.FC = () => {
 };
 
 // Split out demo content for clarity
-const DemoContent: React.FC<{lang:Lang; step:number; demoResult:{text:string;desc:string}; demoBg:string; subheading:string;}> = ({ demoResult, demoBg, subheading }) => {
+const DemoContent: React.FC<{ lang: Lang; step: number; demoResult: { text: string; desc: string }; demoBg: string; subheading: string; }> = ({ demoResult, demoBg, subheading }) => {
   return (
     <div>
       <div className={`p-4 rounded-lg font-mono text-sm min-h-[110px] whitespace-pre-wrap break-words ${demoBg}`}>{demoResult.text}</div>
